@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohamed Selim — Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0a0d16;
+    --navy-2:#121728;
+    --gold:#cda45e;
+    --gold-bright:#f0d59a;
+    --cream:#f4efe4;
+    --muted:#97a0b3;
+    --line: rgba(244,239,228,0.10);
+    --line-strong: rgba(205,164,94,0.38);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--navy);
+    color:var(--cream);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+  ::selection{background:var(--gold); color:var(--navy);}
+
+  body::before{
+    content:'';
+    position:fixed; inset:-20%;
+    background:
+      radial-gradient(38% 38% at 18% 18%, rgba(205,164,94,0.16), transparent 60%),
+      radial-gradient(45% 45% at 82% 12%, rgba(45,30,70,0.55), transparent 60%),
+      radial-gradient(50% 50% at 50% 95%, rgba(16,59,58,0.38), transparent 60%);
+    filter: blur(70px);
+    z-index:-2;
+    animation: meshShift 28s ease-in-out infinite alternate;
+    pointer-events:none;
+  }
+  @keyframes meshShift{
+    0%{ transform: translate3d(0,0,0) rotate(0deg); }
+    100%{ transform: translate3d(2%,-3%,0) rotate(5deg); }
+  }
+
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:200;
+    opacity:0.045; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .progress-bar{position:fixed; top:0; left:0; right:0; height:3px; background:rgba(255,255,255,0.06); z-index:300;}
+  .progress-fill{height:100%; width:0%; background:linear-gradient(90deg,var(--gold),var(--gold-bright)); box-shadow:0 0 10px rgba(205,164,94,0.65); transition:width 0.08s linear;}
+
+  a{color:inherit;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .display{font-family:'Fraunces',serif;}
+
+  /* ---- top bar ---- */
+  .topbar{
+    position:fixed; top:3px; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 1.1rem clamp(1.2rem,4vw,3rem);
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--muted);
+    pointer-events:none;
+  }
+  .topbar span.tag{
+    color:var(--cream); border:1px solid var(--line-strong); padding:0.3rem 0.6rem; border-radius:999px;
+    background:rgba(205,164,94,0.06);
+  }
+  .topbar .rec{ display:flex; align-items:center; gap:0.5rem; }
+  .rec-dot{
+    width:6px;height:6px;border-radius:50%;background:var(--gold-bright);
+    box-shadow:0 0 8px rgba(240,213,154,0.8);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+  /* ---- hero / FRAME 01 ---- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items:stretch;
+    border-bottom:1px solid var(--line);
+  }
+  @media (max-width:880px){ .hero{grid-template-columns:1fr; min-height:auto;} }
+
+  .hero-text{
+    display:flex; flex-direction:column; justify-content:center;
+    padding: clamp(6rem,10vw,7rem) clamp(1.4rem,5vw,4rem) 3rem;
+    position:relative;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--muted); margin:0 0 1.6rem;
+    display:flex; align-items:center; gap:0.7rem;
+  }
+  .eyebrow::before{ content:''; width:22px; height:1px; background:var(--gold); }
+
+  h1.name{
+    font-family:'Fraunces',serif; font-weight:600; font-style:normal;
+    font-size:clamp(3.2rem, 8.6vw, 6.8rem);
+    line-height:0.96;
+    margin:0 0 1.4rem;
+    overflow:hidden;
+  }
+  h1.name .line{
+    display:block;
+    transform:translateY(110%);
+    animation: rise 0.9s cubic-bezier(.16,1,.3,1) forwards;
+    background: linear-gradient(100deg, var(--gold-bright), var(--gold) 35%, var(--cream) 65%, var(--gold-bright));
+    background-size:220% 100%;
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    animation: rise 0.9s cubic-bezier(.16,1,.3,1) forwards, shimmer 9s ease-in-out infinite;
+  }
+  h1.name .line:nth-child(2){animation-delay:0.12s, 1.5s;}
+  @keyframes rise{ to{transform:translateY(0);} }
+  @keyframes shimmer{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+
+  .role-line{
+    font-size:clamp(1rem,2vw,1.25rem);
+    color:var(--muted);
+    max-width:34ch;
+    margin:0 0 2.2rem;
+    line-height:1.55;
+    opacity:0;
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay:0.5s;
+  }
+  @keyframes fadeUp{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+
+  .meta-strip{
+    display:flex; flex-wrap:wrap; gap:1.6rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem; letter-spacing:0.04em; color:var(--muted);
+    border-top:1px solid var(--line); padding-top:1.2rem; margin-bottom:1.8rem;
+    opacity:0; animation: fadeUp 0.8s ease forwards; animation-delay:0.72s;
+  }
+  .meta-strip b{color:var(--gold-bright); font-weight:500;}
+
+  .cta-row{
+    display:flex; flex-wrap:wrap; gap:1rem;
+    opacity:0; animation: fadeUp 0.8s ease forwards; animation-delay:0.95s;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:0.5rem;
+    padding:0.85rem 1.5rem; border-radius:999px;
+    font-family:'JetBrains Mono',monospace; font-size:0.74rem; letter-spacing:0.06em; text-transform:uppercase;
+    text-decoration:none; position:relative; overflow:hidden;
+    transition:transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  }
+  .btn-primary{ background:linear-gradient(120deg,var(--gold-bright),var(--gold)); color:var(--navy); font-weight:700; }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 12px 30px rgba(205,164,94,0.35); }
+  .btn-primary::after{
+    content:''; position:absolute; top:0; left:-60%; width:40%; height:100%;
+    background:linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+    transform:skewX(-20deg); transition:left 0.6s ease;
+  }
+  .btn-primary:hover::after{ left:130%; }
+  .btn-ghost{ border:1px solid var(--line-strong); color:var(--cream); background:rgba(255,255,255,0.02); }
+  .btn-ghost:hover{ border-color:var(--gold); color:var(--gold-bright); transform:translateY(-2px); }
+
+  .hero-photo{ position:relative; overflow:hidden; background:#000; }
+  .hero-photo img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    filter:grayscale(1) contrast(1.12) brightness(0.94);
+    transform:scale(1.06);
+    transition: transform 1.4s cubic-bezier(.16,1,.3,1);
+  }
+  .hero-photo:hover img{ transform:scale(1.0); }
+  .hero-photo::before{
+    content:''; position:absolute; inset:0; z-index:2; pointer-events:none;
+    background:linear-gradient(160deg, rgba(205,164,94,0.22), rgba(20,20,45,0.15) 45%, rgba(16,59,58,0.28));
+    mix-blend-mode:color;
+  }
+  .spotlight{
+    position:absolute; inset:0; z-index:3; pointer-events:none; opacity:0;
+    background:radial-gradient(240px circle at var(--x,50%) var(--y,50%), rgba(240,213,154,0.28), transparent 60%);
+    transition:opacity 0.3s ease;
+  }
+  .hero-photo:hover .spotlight{ opacity:1; }
+
+  .develop-wipe{
+    position:absolute; inset:0; background:var(--navy);
+    transform-origin:top;
+    animation: develop 1.6s cubic-bezier(.65,0,.2,1) forwards;
+    animation-delay:0.15s; z-index:5;
+  }
+  @keyframes develop{ to{ transform:scaleY(0); } }
+
+  .frame-marks span{
+    position:absolute; width:16px; height:16px; z-index:6;
+    border-color:var(--gold-bright); border-style:solid; opacity:0.9;
+  }
+  .frame-marks .tl{top:14px;left:14px;border-width:1px 0 0 1px;}
+  .frame-marks .tr{top:14px;right:14px;border-width:1px 1px 0 0;}
+  .frame-marks .bl{bottom:14px;left:14px;border-width:0 0 1px 1px;}
+  .frame-marks .br{bottom:14px;right:14px;border-width:0 1px 1px 0;}
+
+  .frame-label{
+    position:absolute; bottom:14px; left:38px; z-index:6;
+    font-family:'JetBrains Mono',monospace; font-size:0.68rem;
+    letter-spacing:0.1em; color:var(--cream); text-transform:uppercase;
+  }
+  .frame-label small{display:block; color:var(--gold-bright); font-size:0.62rem; margin-top:2px;}
+
+  /* ---- section shell ---- */
+  section.frame{
+    padding: clamp(4rem,8vw,6.5rem) clamp(1.4rem,5vw,4rem);
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .frame-head{ display:flex; align-items:baseline; gap:1.2rem; margin-bottom: clamp(2.2rem,5vw,3.4rem); flex-wrap:wrap; }
+  .frame-num{ font-family:'JetBrains Mono',monospace; color:var(--gold); font-size:0.85rem; letter-spacing:0.06em; }
+  .frame-title{
+    font-family:'Fraunces',serif; font-weight:600;
+    font-size:clamp(1.9rem,4vw,3.1rem);
+    margin:0; position:relative; display:inline-block; padding-bottom:0.35rem;
+  }
+  .frame-title::after{
+    content:''; position:absolute; left:0; bottom:0; height:2px; width:0;
+    background:linear-gradient(90deg,var(--gold),transparent);
+    transition:width 1s cubic-bezier(.16,1,.3,1);
+  }
+  .frame-head.reveal.in .frame-title::after{ width:100%; }
+  .frame-sub{
+    font-family:'JetBrains Mono',monospace; font-size:0.7rem;
+    color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;
+    margin-left:auto; text-align:right;
+  }
+
+  .reveal{ opacity:0; transform:translateY(28px); transition: opacity 0.8s cubic-bezier(.16,1,.3,1), transform 0.8s cubic-bezier(.16,1,.3,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---- about ---- */
+  .about-grid{ display:grid; grid-template-columns: 1.4fr 1fr; gap:clamp(2rem,5vw,4rem); }
+  @media (max-width:760px){.about-grid{grid-template-columns:1fr;}}
+  .about-grid p{ font-size:clamp(1.05rem,1.6vw,1.3rem); line-height:1.65; color:var(--cream); font-weight:400; max-width:60ch; }
+  .stat-list{border-top:1px solid var(--line);}
+  .stat{
+    display:flex; justify-content:space-between; padding:0.85rem 0;
+    border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace; font-size:0.78rem;
+    text-transform:uppercase; letter-spacing:0.05em; color:var(--muted);
+  }
+  .stat b{color:var(--gold-bright); font-weight:500;}
+
+  /* ---- index / skills as spec sheet ---- */
+  .spec-groups{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap: 0 clamp(1.5rem,4vw,3rem); }
+  .spec-group{border-top:1px solid var(--line-strong); padding-top:1rem; margin-bottom:2.4rem;}
+  .spec-group h3{
+    font-family:'JetBrains Mono',monospace; font-size:0.72rem;
+    letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin:0 0 0.9rem;
+  }
+  .tags{display:flex; flex-wrap:wrap; gap:0.55rem;}
+  .tag{
+    font-family:'JetBrains Mono',monospace; font-size:0.76rem;
+    border:1px solid var(--line-strong); padding:0.42rem 0.75rem; border-radius:6px;
+    color:var(--cream); background:rgba(205,164,94,0.05);
+    transition: background 0.3s ease, color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+  }
+  .tag:hover{
+    background:linear-gradient(120deg,var(--gold-bright),var(--gold));
+    color:var(--navy); border-color:var(--gold-bright);
+    transform:translateY(-3px);
+    box-shadow:0 10px 22px rgba(205,164,94,0.3);
+  }
+
+  /* ---- development / education timeline ---- */
+  .timeline{ position:relative; border-top:none; padding-left:1.7rem; }
+  .timeline::before{ content:''; position:absolute; left:5px; top:6px; bottom:6px; width:1px; background:linear-gradient(var(--gold), transparent 90%); }
+  .tl-item{
+    position:relative;
+    display:grid; grid-template-columns: 140px 1fr 160px;
+    gap:1.5rem; padding:1.6rem 0; border-bottom:1px solid var(--line);
+    align-items:start;
+  }
+  .tl-item::before{
+    content:''; position:absolute; left:-1.75rem; top:1.9rem; width:9px; height:9px; border-radius:50%;
+    background:var(--gold-bright); box-shadow:0 0 0 4px rgba(205,164,94,0.18);
+  }
+  @media (max-width:700px){.tl-item{grid-template-columns:1fr; gap:0.4rem;}}
+  .tl-year{font-family:'JetBrains Mono',monospace; color:var(--gold-bright); font-size:0.85rem;}
+  .tl-body h4{margin:0 0 0.4rem; font-size:1.2rem; font-weight:600;}
+  .tl-body p{margin:0; color:var(--muted); font-size:0.95rem; line-height:1.55;}
+  .tl-tag{ font-family:'JetBrains Mono',monospace; font-size:0.68rem; text-transform:uppercase; color:var(--muted); letter-spacing:0.08em; text-align:right; }
+
+  /* ---- exposures / project experience ---- */
+  .exposure{ border-top:1px solid var(--line); padding:2rem 0; display:grid; grid-template-columns: 1fr 2fr; gap:2rem; }
+  @media (max-width:760px){.exposure{grid-template-columns:1fr;}}
+  .exposure:last-child{border-bottom:1px solid var(--line);}
+  .exposure h4{ font-family:'Fraunces',serif; font-weight:600; font-size:1.9rem; margin:0; }
+  .exposure .role{font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--gold); text-transform:uppercase; letter-spacing:0.08em; margin-top:0.4rem;}
+  .exposure ul{margin:0; padding-left:1.1rem; color:var(--muted); line-height:1.7; font-size:0.98rem;}
+  .exposure ul li::marker{color:var(--gold);}
+
+  /* ---- credits / leadership ---- */
+  .credit-list{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:2rem;}
+  .credit{border-top:1px solid var(--line-strong); padding-top:1.2rem; transition:transform 0.3s ease;}
+  .credit:hover{ transform:translateY(-4px); }
+  .credit h4{margin:0 0 0.5rem; font-size:1.05rem; font-weight:600;}
+  .credit p{margin:0; color:var(--muted); font-size:0.92rem; line-height:1.6;}
+  .credit .org{font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--gold); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.3rem; display:block;}
+
+  .lang-row{display:flex; gap:2.5rem; flex-wrap:wrap; margin-top:2.5rem;}
+  .lang{font-family:'JetBrains Mono',monospace; font-size:0.85rem;}
+  .lang b{display:block; font-family:'Inter',sans-serif; font-size:1.1rem; font-weight:600; margin-bottom:0.2rem; color:var(--cream);}
+  .lang span{color:var(--muted);}
+
+  /* ---- contact / final frame ---- */
+  .contact-frame{ min-height:70svh; display:flex; flex-direction:column; justify-content:center; border-bottom:none; }
+  .contact-frame h2{
+    font-family:'Fraunces',serif; font-weight:600;
+    font-size:clamp(2.4rem,7vw,5.4rem);
+    margin:0 0 2rem; line-height:1.02;
+    background: linear-gradient(100deg, var(--gold-bright), var(--gold) 35%, var(--cream) 65%, var(--gold-bright));
+    background-size:220% 100%; -webkit-background-clip:text; background-clip:text; color:transparent;
+    animation: shimmer 9s ease-in-out infinite;
+  }
+  .contact-links{display:flex; flex-wrap:wrap; gap:0 2.5rem; margin-bottom:2.4rem;}
+  .contact-links a{
+    font-family:'JetBrains Mono',monospace; font-size:0.95rem;
+    padding:0.7rem 0; border-bottom:1px solid transparent;
+    display:inline-flex; align-items:center; gap:0.5rem;
+    text-decoration:none; transition:border-color 0.25s ease, color 0.25s ease;
+  }
+  .contact-links a:hover{ border-color:var(--gold); color:var(--gold-bright); }
+  footer{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem;
+    font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--muted);
+    text-transform:uppercase; letter-spacing:0.08em;
+    padding-top:2rem; border-top:1px solid var(--line);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+    body::before{animation:none;}
+  }
+
+  a:focus-visible, .tag:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="topbar">
+  <span>M. SELIM <span class="tag">FILE No.02028</span></span>
+  <span class="rec"><span class="rec-dot"></span> OPEN TO WORK</span>
+</div>
+
+<!-- FRAME 01 — HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">Contact Sheet — Frame 01</p>
+    <h1 class="name">
+      <span class="line">Mohamed</span>
+      <span class="line">Selim</span>
+    </h1>
+    <p class="role-line">Software Engineer building toward AI Engineering — full‑stack systems, agents, and the architecture in between.</p>
+    <div class="meta-strip">
+      <span><b>Based</b> — Yekaterinburg, RU</span>
+      <span><b>Focus</b> — AI / Full‑Stack</span>
+      <span><b>Status</b> — Relocation ready</span>
+    </div>
+    <div class="cta-row">
+      <a href="#contact" class="btn btn-primary">Let's talk ↳</a>
+      <a href="https://github.com/mohamedosamaeg" target="_blank" rel="noopener" class="btn btn-ghost">View GitHub</a>
+    </div>
+  </div>
+  <div class="hero-photo">
+    <img src="portrait.jpg" alt="Portrait of Mohamed Selim">
+    <div class="spotlight" id="spotlight"></div>
+    <div class="develop-wipe"></div>
+    <div class="frame-marks"><span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span></div>
+    <div class="frame-label">EG / RU<small>50MM — B&amp;W — DEVELOPED</small></div>
+  </div>
+</section>
+
+<!-- FRAME 02 — ABOUT -->
+<section class="frame" id="about">
+  <div class="frame-head reveal">
+    <span class="frame-num">FRAME 02</span>
+    <h2 class="frame-title">Subject</h2>
+    <span class="frame-sub">Professional summary</span>
+  </div>
+  <div class="about-grid reveal">
+    <p>Detail-oriented software engineer with a solid foundation in software engineering, now specializing in Artificial Intelligence at Master's level. Proven record designing scalable web applications, managing databases, and applying DevOps fundamentals — paired with leadership built leading university organizations and international student initiatives. Ready to bring full‑stack development and AI integration expertise to a team.</p>
+    <div class="stat-list">
+      <div class="stat"><span>Degree</span><b>MSc, AI Engineering — 2028</b></div>
+      <div class="stat"><span>Prior</span><b>BSc, Software Engineering — 2025</b></div>
+      <div class="stat"><span>Languages</span><b>Arabic · Russian · English</b></div>
+      <div class="stat"><span>Mobility</span><b>On‑site / Hybrid / Remote</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- FRAME 03 — INDEX / SKILLS -->
+<section class="frame" id="index">
+  <div class="frame-head reveal">
+    <span class="frame-num">FRAME 03</span>
+    <h2 class="frame-title">Index</h2>
+    <span class="frame-sub">Technical skills</span>
+  </div>
+  <div class="spec-groups reveal">
+    <div class="spec-group">
+      <h3>Languages</h3>
+      <div class="tags">
+        <span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">TypeScript</span><span class="tag">SQL</span>
+      </div>
+    </div>
+    <div class="spec-group">
+      <h3>Web &amp; Frameworks</h3>
+      <div class="tags">
+        <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">Node.js</span><span class="tag">REST APIs</span>
+      </div>
+    </div>
+    <div class="spec-group">
+      <h3>DevOps &amp; Infra</h3>
+      <div class="tags">
+        <span class="tag">Linux</span><span class="tag">VMware</span><span class="tag">Git</span><span class="tag">Version Control</span>
+      </div>
+    </div>
+    <div class="spec-group">
+      <h3>Artificial Intelligence</h3>
+      <div class="tags">
+        <span class="tag">Prompt Engineering</span><span class="tag">AI Agents</span>
+      </div>
+    </div>
+    <div class="spec-group">
+      <h3>Methods</h3>
+      <div class="tags">
+        <span class="tag">Software Architecture</span><span class="tag">System Design</span><span class="tag">Agile</span><span class="tag">Business Admin</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FRAME 04 — DEVELOPMENT / EDUCATION -->
+<section class="frame" id="development">
+  <div class="frame-head reveal">
+    <span class="frame-num">FRAME 04</span>
+    <h2 class="frame-title">Development</h2>
+    <span class="frame-sub">Education &amp; certification</span>
+  </div>
+  <div class="timeline reveal">
+    <div class="tl-item">
+      <div class="tl-year">2025 — 2028</div>
+      <div class="tl-body">
+        <h4>MSc, Artificial Intelligence Engineering</h4>
+        <p>Ural Federal University, Yekaterinburg — expected graduation 2028.</p>
+      </div>
+      <div class="tl-tag">In progress</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2021 — 2025</div>
+      <div class="tl-body">
+        <h4>BSc, Software Engineering</h4>
+        <p>Ural Federal University — graduation project "Ryadom," a digital psychological support platform, graded 5/5.</p>
+      </div>
+      <div class="tl-tag">Excellent (5/5)</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2025</div>
+      <div class="tl-body">
+        <h4>DevOps Engineering Diploma</h4>
+        <p>Rostelecom — applied training in DevOps fundamentals and infrastructure practice.</p>
+      </div>
+      <div class="tl-tag">Certified</div>
+    </div>
+  </div>
+</section>
+
+<!-- FRAME 05 — EXPOSURES / PROJECT -->
+<section class="frame" id="exposures">
+  <div class="frame-head reveal">
+    <span class="frame-num">FRAME 05</span>
+    <h2 class="frame-title">Exposures</h2>
+    <span class="frame-sub">Academic &amp; project work</span>
+  </div>
+  <div class="reveal">
+    <div class="exposure">
+      <div>
+        <h4>Ryadom</h4>
+        <p class="role">Lead Developer &amp; Architect</p>
+      </div>
+      <ul>
+        <li>Designed and engineered a digital platform to improve accessibility to mental health services.</li>
+        <li>Architected the system structure, database schemas, and secure user authentication flows.</li>
+        <li>Developed responsive web interfaces and managed full‑cycle project documentation to industry standards.</li>
+        <li>Applied modern web technologies to ensure platform performance and scalability.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FRAME 06 — CREDITS / LEADERSHIP -->
+<section class="frame" id="credits">
+  <div class="frame-head reveal">
+    <span class="frame-num">FRAME 06</span>
+    <h2 class="frame-title">Credits</h2>
+    <span class="frame-sub">Leadership &amp; volunteer work</span>
+  </div>
+  <div class="credit-list reveal">
+    <div class="credit">
+      <span class="org">International Students Association</span>
+      <h4>Head of Arabic Media Team</h4>
+      <p>Led a diverse team producing multimedia, photography, and digital content; managed end‑to‑end coverage of high‑profile university and international student events.</p>
+    </div>
+    <div class="credit">
+      <span class="org">Ural Federal University · 2020–2025</span>
+      <h4>Student Union Member</h4>
+      <p>Collaborated with university administration and international boards on large‑scale student activities; supported cultural integration for international students.</p>
+    </div>
+    <div class="credit">
+      <span class="org">Across Russia</span>
+      <h4>Volunteer, Cultural Conferences &amp; Events</h4>
+      <p>Contributed to the execution of international student activities and cultural conferences.</p>
+    </div>
+  </div>
+  <div class="lang-row reveal">
+    <div class="lang"><b>Arabic</b><span>Native</span></div>
+    <div class="lang"><b>Russian</b><span>Upper‑Intermediate (B2)</span></div>
+    <div class="lang"><b>English</b><span>Intermediate (B1)</span></div>
+  </div>
+</section>
+
+<!-- FRAME 07 — CONTACT -->
+<section class="frame contact-frame" id="contact">
+  <p class="eyebrow reveal">Frame 07 — Contact sheet, final print</p>
+  <h2 class="reveal">Let's build something.</h2>
+  <div class="contact-links reveal">
+    <a href="mailto:mo7880084@gmail.com">↳ mo7880084@gmail.com</a>
+    <a href="https://www.linkedin.com/in/mohamed-selim-249109239" target="_blank" rel="noopener">↳ LinkedIn</a>
+    <a href="https://github.com/mohamedosamaeg" target="_blank" rel="noopener">↳ GitHub</a>
+    <a href="tel:+201023118421">↳ +20 102 311 8421 (Egypt)</a>
+    <a href="tel:+79299588241">↳ +7 929 958 8241 (Russia)</a>
+  </div>
+  <footer>
+    <span>Yekaterinburg, Russia</span>
+    <span>© 2026 Mohamed Selim</span>
+  </footer>
+</section>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  const fill = document.getElementById('progressFill');
+  window.addEventListener('scroll', ()=>{
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    fill.style.width = scrolled + '%';
+  });
+
+  const heroPhoto = document.querySelector('.hero-photo');
+  const spotlight = document.getElementById('spotlight');
+  if(heroPhoto){
+    heroPhoto.addEventListener('mousemove', (e)=>{
+      const rect = heroPhoto.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      spotlight.style.setProperty('--x', x + '%');
+      spotlight.style.setProperty('--y', y + '%');
+    });
+  }
+</script>
+
+</body>
+</html>
